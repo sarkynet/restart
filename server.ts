@@ -27,7 +27,7 @@ export function app(): express.Express {
 
   // Example Express Rest API endpoints
   server.get('/api/**', (req, res) => {
-    res.status(200).send('Server Side Working Perfectly Well...!');
+    res.status(404).send('Data requests are not Supported');
   });
 
   // Serve static files from /browser
