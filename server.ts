@@ -13,6 +13,7 @@ export function app(): express.Express {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/restart/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+  const routes = require('./server/routes/index.route');
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({
@@ -22,9 +23,11 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+  server.use('/api', routes)
+
   // Example Express Rest API endpoints
   server.get('/api/**', (req, res) => {
-    res.status(404).send('data requests are not yet supported');
+    res.status(200).send('Server Side Working Perfectly Well...!');
   });
 
   // Serve static files from /browser
