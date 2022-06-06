@@ -15,6 +15,23 @@ export function app(): express.Express {
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
   const routes = require('./server/routes/index.route');
 
+  //Configure MongoDB for the Application
+  const database = require('./server/mongo.db');
+  const mongoose = require('mongoose');
+
+  mongoose.Promise = global.Promise;
+  mongoose.connect(database.db, {
+    useNewUrlParser: true,
+    //useFindAndModify: false,
+    useUnifiedTopology: true
+  }).then(()=>{
+    console.log("Database Connected Successfully...!");
+  },
+  (error:any)=>{
+    console.log("Database Connection Error:" + error);
+  })
+
+
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({
     bootstrap: AppServerModule,

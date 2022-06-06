@@ -1,5 +1,6 @@
 // const bcrypt = require('bcrypt');
 // const Joi = require('joi');
+// const { json } = require('stream/consumers');
 const Admin = require('./admin.model');
 
 // const adminSchema = Joi.object({
@@ -10,7 +11,6 @@ const Admin = require('./admin.model');
 //   repeatPassword: Joi.string().required().valid(Joi.ref('password'))
 // })
 
-
 module.exports = {
   insert,
   read,
@@ -18,20 +18,32 @@ module.exports = {
   deleteU
 }
 
-async function insert(req, res) {
-//   admin = await Joi.validate(admin, adminSchema, { abortEarly: false });
-//   admin.hashedPassword = bcrypt.hashSync(admin.password, 10);
-//   delete admin.password;
-//   return await new Admin(admin).save();
-return 'ADMIN INSERT FUNCTION CALLED...!';
+async function insert(admin) {
+  // admin = await Joi.validate(admin, adminSchema, { abortEarly: false });
+   admin.hashedPassword = admin.password;
+  delete admin.password;
+  await new Admin(admin).save().then(data => {
+            console.log('user data added'+data);
+            return { message: 'success '+data };
+        })
+        .catch(err => {
+            console.error(err);
+            return err;
+        });
 }
 
 async function read(admin, req, res) {
   //   admin = await Joi.validate(admin, adminSchema, { abortEarly: false });
   //   admin.hashedPassword = bcrypt.hashSync(admin.password, 10);
   //   delete admin.password;
-  //   return await new Admin(admin).save();
-  return 'ADMIN READ FUNCTION CALLED...!';
+     await Admin.find().then(data => {
+      console.log(data);
+      return data;
+  })
+  .catch(err => {
+      console.error(err);
+      return err;
+  });
   }
 
   async function update(admin, req, res) {
@@ -39,7 +51,6 @@ async function read(admin, req, res) {
     //   admin.hashedPassword = bcrypt.hashSync(admin.password, 10);
     //   delete admin.password;
     //   return await new Admin(admin).save();
-    return 'ADMIN UPDATE FUNCTION CALLED...!';
     }
 
     async function deleteU(admin, req, res) {

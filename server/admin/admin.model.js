@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const AdminSchema = new mongoose.Schema({
-  fullname: {
+  firstname: {
+    type: String,
+    required: true
+  },
+  lastname: {
     type: String,
     required: true
   },
@@ -22,6 +26,7 @@ const AdminSchema = new mongoose.Schema({
   },
   roles: [{
     type: String,
+    default: 'guest'
   }]
 }, {
   versionKey: false

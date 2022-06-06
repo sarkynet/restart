@@ -8,9 +8,17 @@ router.get('/health-check', (req, res) =>
   res.send('ADMIN ROUTES OK')
   
 );
+const admin = {
+  firstname: 'Jude',
+  lastname: 'Ejeziem',
+  email: 'sarkynet@yahoo.com',
+  mobileNumber: '07061081701',
+  password: 'wisdom',
+  repeatPassword: 'wisdom'
+};
 
 router.get('/insert', (req, res) =>{
-  let response = adminCtrl.insert()
+  let response = adminCtrl.insert(admin);
   res.send(response);
 });
 
