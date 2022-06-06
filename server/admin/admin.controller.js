@@ -1,7 +1,9 @@
 // const bcrypt = require('bcrypt');
 // const Joi = require('joi');
-// const { json } = require('stream/consumers');
+//  const { json } = require('stream/consumers');
 const Admin = require('./admin.model');
+//const JSON = JSON;
+
 
 // const adminSchema = Joi.object({
 //   fullname: Joi.string().required(),
@@ -24,7 +26,8 @@ async function insert(admin) {
   delete admin.password;
   await new Admin(admin).save().then(data => {
             console.log('user data added'+data);
-            return { message: 'success '+data };
+            // return { message: 'success '+data };
+            return JSON.parse(data);
         })
         .catch(err => {
             console.error(err);
@@ -38,7 +41,7 @@ async function read(admin, req, res) {
   //   delete admin.password;
      await Admin.find().then(data => {
       console.log(data);
-      return data;
+      return JSON.parse(data);
   })
   .catch(err => {
       console.error(err);
